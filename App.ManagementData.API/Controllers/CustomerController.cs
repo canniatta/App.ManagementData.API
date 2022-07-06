@@ -14,9 +14,9 @@ namespace App.ManagementData.API.Controllers
         {
             boCustomer = new(db);
         }
-        [Route("GetCustomer")]
+        [Route("GetCustomerByID")]
         [HttpGet]
-        public async Task<IActionResult> GetDataCustomer([FromQuery] long idcustomer)
+        public async Task<IActionResult> GetDataCustomerById([FromQuery] long idcustomer)
         {
             var result = await boCustomer.ProcessGetCustomer(idcustomer);
             if (!result.Item1)
@@ -24,7 +24,17 @@ namespace App.ManagementData.API.Controllers
 
             
             return Ok(result.Item3);
+        }
+        [Route("GetAllCustomer")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllDataCustomer()
+        {
+            var result = await boCustomer.GetAllDataCustomer();
+            if (!result.Item1)
+                return BadRequest(result.Item3);
 
+
+            return Ok(result.Item3);
         }
         [Route("AddNewCustomer")]
         [HttpPost]
@@ -36,7 +46,6 @@ namespace App.ManagementData.API.Controllers
 
 
             return Ok(result.Item3);
-
         }
     }
 }

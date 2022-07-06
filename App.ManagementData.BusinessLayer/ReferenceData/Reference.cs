@@ -1,6 +1,7 @@
 ﻿using App.ManagementData.BusinessLayer.BindingModels;
 using App.ManagementData.DataAccess.Context;
 using App.ManagementData.DataAccess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace App.ManagementData.BusinessLayer.ReferenceData
 {
@@ -14,6 +15,11 @@ namespace App.ManagementData.BusinessLayer.ReferenceData
         public async Task<Tcustomer?> getDataCustomer(long idCustomer)
         {
             Tcustomer? result = await dbContext.Tcustomers.FindAsync(idCustomer);
+            return result;
+        }
+        public async Task<List<Tcustomer>> getAllDataCustomer()
+        {
+            List<Tcustomer> result = await dbContext.Tcustomers.ToListAsync();
             return result;
         }
         public async Task<(bool, Tcustomer)> InsertCustomer(BMCustomer data)

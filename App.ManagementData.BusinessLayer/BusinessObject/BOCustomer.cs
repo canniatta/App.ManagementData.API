@@ -35,6 +35,35 @@ namespace App.ManagementData.BusinessLayer.BusinessObject
 
             return (true, "Success", dataCustomer);
         }
+        public async Task<(bool, string, List<BMCustomer>)> GetAllDataCustomer()
+        {
+            List<BMCustomer> AllDataCustomer = new();
+            var getAllData = await boReference.getAllDataCustomer();
+            if (getAllData is null)
+            {
+                return (false, "Data Customer Not Found", AllDataCustomer);
+            }
+
+            for (int i = 0; i < getAllData.Count; i++)
+            {
+                BMCustomer dataCustomer = new();
+                dataCustomer.FirstName = getAllData[i].FirstName;
+                dataCustomer.MiddleName = getAllData[i].MiddleName;
+                dataCustomer.LastName = getAllData[i].LastName;
+                dataCustomer.FullName = getAllData[i].FullName;
+                dataCustomer.BirthDate = getAllData[i].BirthDate;
+                dataCustomer.BirthPlace = getAllData[i].BirthPlace;
+                dataCustomer.IDSex = getAllData[i].Idsex;
+                dataCustomer.NoHandphone = getAllData[i].NoHandphone;
+                dataCustomer.Age = getAllData[i].Age;
+                dataCustomer.IDNo = getAllData[i].Idno;
+                dataCustomer.IDType = getAllData[i].Idtype;
+
+                AllDataCustomer.Add(dataCustomer);
+            }
+            
+            return (true, "Success", AllDataCustomer);
+        }
         public async Task<(bool, string, BMCustomer)> InsertDataCustomer(BMCustomer data)
         {
             BMCustomer dataCustomer = new();

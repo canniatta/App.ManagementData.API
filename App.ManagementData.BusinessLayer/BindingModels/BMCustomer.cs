@@ -4,6 +4,7 @@ namespace App.ManagementData.BusinessLayer.BindingModels
 {
     public class BMCustomer
     {
+        public long IDCustomer { get; set; }
         public string? FirstName { get; set; } = string.Empty;
         public string? MiddleName { get; set; } = string.Empty;
         public string? LastName { get; set; } = string.Empty;
