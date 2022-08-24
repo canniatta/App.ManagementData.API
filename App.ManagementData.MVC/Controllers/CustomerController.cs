@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace App.ManagementData.MVC.Controllers
 {
     public class CustomerController : Controller
     {
-        Uri baseAddress = new("http://localhost:5041/api/Customer/");
-        HttpClient client;
+        private readonly Uri baseAddress = new("http://localhost:5041/api/Customer/");
+        private readonly HttpClient client;
         public CustomerController()
         {
             client = new HttpClient
@@ -18,7 +19,7 @@ namespace App.ManagementData.MVC.Controllers
         }
         // GET: CustomerController
         [HttpGet]
-        public async Task<ActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             List<CustomerViewModel> modelCustomer = new();
             using var responseMessage = await client.GetAsync(client.BaseAddress + "GetAllCustomer");
@@ -45,11 +46,18 @@ namespace App.ManagementData.MVC.Controllers
         // POST: CustomerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(CustomerViewModel modelCustomer)
         {
             try
             {
-                return RedirectToAction(nameof(IndexAsync));
+                string data = JsonConvert.SerializeObject(modelCustomer);
+                StringContent content = new(data, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync(client.BaseAddress + "AddNewCustomer", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return View();
             }
             catch
             {
@@ -70,7 +78,7 @@ namespace App.ManagementData.MVC.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(IndexAsync));
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -91,7 +99,7 @@ namespace App.ManagementData.MVC.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(IndexAsync));
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
