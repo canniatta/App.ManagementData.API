@@ -11,7 +11,8 @@ namespace App.ManagementData.MVC.Models
         [DisplayName("Middle Name")] public string? MiddleName { get; set; } = string.Empty;
         [DisplayName("Last Name")] public string? LastName { get; set; } = string.Empty;
         [Required][DisplayName("Full Name")] public string FullName { get; set; } = string.Empty;
-        [Required][DisplayName("Birth Date")] public DateTime BirthDate { get; set; }
+        [Required][DisplayName("Birth Date")][DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)] 
+        public DateTime BirthDate { get; set; }
         [Required][DisplayName("Birth Place")] public string BirthPlace { get; set; } = string.Empty;
         [Required][DisplayName("Sex")] public string IDSex { get; set; } = string.Empty;
         [Required][DisplayName("No Handphone")] public string NoHandphone { get; set; } = string.Empty;
